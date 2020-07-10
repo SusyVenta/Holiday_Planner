@@ -1,0 +1,25 @@
+run --> edit configurations
+
+startapp upload_section
+runserver
+
+
+# after creatign a model, to create post, get etc.: makemigrations
+# to see sql that is run when executing a request: sqlmigrate finance 0001
+# to apply migrations: migrate
+# shell: from finance.models import Post
+            from django.contrib.auth.models import User
+            to see all users: User.objects.all()
+            see first user: User.objects.first()
+            User.objects.get(id=1)
+            User.objects.filter(username="Susy").last()
+            User.pk
+            User.id
+
+
+#to create project: py -3.6 -m django startproject aws_file_upload
+# to add module/app: py -3.6 -m manage.py startapp upload_section
+
+
+
+http://127.0.0.1:8000/upload_section/

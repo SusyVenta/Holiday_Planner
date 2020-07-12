@@ -1,0 +1,74 @@
+h2{
+  color: white !important;
+  padding:20px;
+}
+
+body {
+  background-color: #232323 !important;
+}
+
+.navbar-brand{
+  color: white !important;
+}
+
+.nav-item:{
+  color: #343a40 !important;
+}
+li.nav-item::marker:{
+  color: #343a40 !important;
+}
+
+#navbar-link{
+  color:white;
+}
+
+#outer-card{
+  float:none;
+  padding:25px;
+  background-color:#232323;
+  border-color:#232323
+}
+
+#inner-card{
+   float:none;
+   background-color:#343a40;
+   color:white;
+}
+
+.btn-primary{
+  background-color:#343a40 !important;
+  border-color:#00eb9c !important;
+  color:#00eb9c !important;
+}
+
+.btn-outline-info{
+  background-color:#343a40 !important;
+  border-color:#00eb9c !important;
+  color:#00eb9c !important;
+}
+
+.btn-link{
+   color:white !important;
+}
+
+label{
+  color: white;
+}
+
+.helptext{
+  color: #6c757d !important;
+}
+
+.colored-link{
+  color: white;
+}
+
+.account-img {
+  height: 125px;
+  width: 125px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+}
+
+
+

@@ -6,11 +6,11 @@
 {% block content %}
   <div style="padding:100px">
     <div id="accordion">
-  <div style="background-color:#343a40" class="card">
+  <div class="card" id="inner-card">
     <div class="card-header" id="headingOne">
       <h5 class="mb-0">
         <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false"
-                aria-controls="collapseOne" style="color:white">
+                aria-controls="collapseOne">
           Login
         </button>
       </h5>
@@ -20,24 +20,24 @@
       <div class="card-body">
         <form>
           <div class="form-group">
-            <label style="color:white" for="exampleInputEmail1">Email address</label>
+            <label for="exampleInputEmail1">Email address</label>
             <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
             <small id="emailHelp1" class="form-text text-muted">We'll never share your email with anyone else.</small>
           </div>
           <div class="form-group">
-            <label style="color:white" for="exampleInputPassword1">Password</label>
+            <label for="exampleInputPassword1">Password</label>
             <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
           </div>
-          <button type="submit" style="background-color:#00eb9c; border-color:#00eb9c; color:black" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-primary">Submit</button>
         </form>
       </div>
     </div>
   </div>
-  <div style="background-color:#343a40" class="card">
+  <div id="inner-card" class="card">
     <div class="card-header" id="headingTwo">
       <h5 class="mb-0">
         <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
-                aria-controls="collapseTwo" style="color:white">
+                aria-controls="collapseTwo">
           Register
         </button>
       </h5>
@@ -46,21 +46,21 @@
       <div class="card-body">
         <form>
           <div class="form-group">
-            <label style="color:white" for="exampleInputEmail1">Username</label>
+            <label for="exampleInputEmail1">Username</label>
             <input type="text" class="form-control" id="inputUsername" aria-describedby="emailHelp" placeholder="Enter username">
           </div>
           <div class="form-group">
-            <label style="color:white" for="exampleInputEmail1">Email address</label>
+            <label for="exampleInputEmail1">Email address</label>
             <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email">
             <small id="emailHelp2" class="form-text text-muted">We'll never share your email with anyone else.</small>
           </div>
           <div class="form-group">
-            <label style="color:white" for="exampleInputPassword1">Password</label>
+            <label for="exampleInputPassword1">Password</label>
             <input type="password" class="form-control" id="inputPassword" placeholder="Password">
             <small id="passwordHelp" class="form-text text-muted">Your password should be longer than 5 characters and
                 contain at least one upper case letter and one symbol.</small>
           </div>
-          <button style="background-color:#00eb9c; border-color:#00eb9c; color:black" type="button"
+          <button type="button"
                   class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Submit</button>
 
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -18,8 +18,14 @@ runserver
 
 
 #to create project: py -3.6 -m django startproject aws_file_upload
-# to add module/app: py -3.6 -m manage.py startapp upload_section
+# to add module/app: py -3.6 manage.py startapp upload_section
 
+
+# create database/ detect changes/ how to update database: manage.py makemigrations --> plans\migrations\0001_initial.py
+# every time i create new models, need to run makemigrations
+# to actually update database: manage.py migrate
+
+#to create admin account: py -3.6 manage.py createsuperuser
 
 
 http://127.0.0.1:8000/upload_section/

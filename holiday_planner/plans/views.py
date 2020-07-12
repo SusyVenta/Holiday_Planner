@@ -34,8 +34,9 @@ def home(request):
 
 
 def plans_done(request):
+    # to get dummy objects: "plans": plans
     context = {
-        "plans": plans
+        "plans": Plan.objects.all()
     }
     return render(request, 'plans/plans_done.html', context=context)
 

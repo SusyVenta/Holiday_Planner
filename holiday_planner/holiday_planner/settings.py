@@ -32,6 +32,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'plans.apps.PlansConfig',
+    'users.apps.UsersConfig',
+    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -119,3 +121,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+""" Where to save user pics """
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+""" How to access images from browser """
+MEDIA_URL = "/media/"
+
+""" For CSS template of register form """
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+LOGIN_REDIRECT_URL = 'plans-home'
+""" Redirect to login if user tries to access a page accessible only if logged in. After logging, it shows the page """
+LOGIN_URL = 'login'
+
+

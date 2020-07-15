@@ -31,8 +31,12 @@ class Plan(models.Model):
     # if user is deleted, plans get deleted
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     # defines how post is displayed when queried
+
     def __str__(self):
         return self.title
-    #
-    # def get_absolute_url(self):
-    #     return reverse('plan-detail', kwargs={'pk': self.pk})
+
+    def get_absolute_url(self):
+        """ Needed for django to redirect to plan detail after plan is created
+        Redirect redirects to a specic route vs reverse returns an url as string to the route
+        """
+        return reverse('plan-detail', kwargs={'pk': self.pk})

@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="canonical" href="https://getbootstrap.com/docs/4.0/components/input-group/">
     <title>Holiday Planner - {% block title %}{% endblock %} </title>
+
   </head>
   <body>
     <!-- Optional JavaScript -->
@@ -21,6 +22,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <img class="img-fluid mr-3" alt="Responsive image" src="{% static 'plans/pin_icon.svg' %}" style="width:40px">
   <a class="navbar-brand" href="{% url 'plans-home' %}">Holiday Planner</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -29,27 +31,35 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     {% if user.is_authenticated %}
     <ul class="navbar-nav mr-auto">
+    <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="{% url 'profile' %}">My Holiday Plans <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{% url 'plans-home' %}">Overview<span class="sr-only">(current)</span></a>
       </li>
     </ul>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        My Holiday Plans
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <a class="dropdown-item" href="{% url 'plans-done' %}">See plans</a>
+        <a class="dropdown-item" href="{% url 'plan-create' %}">New plan</a>
+      </div>
+     </li>
+
+      </ul>
+    {% else %}
+    <ul class="navbar-nav mr-auto"></ul>
     {% endif %}
     {% if user.is_authenticated %}
-      <li class="nav-link">
-        <a class="colored-link" href= "{% url 'logout' %}">Log out</a>
-      </li>
+      <a class="nav-item mr-4" href= "{% url 'profile' %}">Profile</a>
+      <a class="nav-item mr-4" href= "{% url 'logout' %}">Log out</a>
     {% else %}
     <ul></ul>
-      <li class="nav-link">
-        <a class="colored-link" href= "{% url 'login' %}">Log in</a>
-      </li>
-      <li class="nav-link">
-        <a class="colored-link" href = "{% url 'register' %}">Register</a>
-      </li>
+      <a class="nav-item mr-4" href= "{% url 'login' %}">Log in</a>
+      <a class="nav-item mr-4" href = "{% url 'register' %}">Register</a>
     {% endif %}
-      <li class="nav-link">
-        <a class="colored-link" href = "mailto: sample-mail@hotmail.com">Contact us</a>
-      </li>
+      <a class="nav-item mr-4" href = "mailto: sample-mail@hotmail.com">Contact us</a>
+
   </div>
 </nav>
 
@@ -62,7 +72,7 @@
     {% endfor %}
   {% endif %}
   {% block content %}{% endblock %}
-</div>
 
+</div>
      </body>
 </html>

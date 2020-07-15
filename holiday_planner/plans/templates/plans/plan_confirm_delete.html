@@ -1,0 +1,21 @@
+{% extends "plans/base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Delete{% endblock %}
+{% block content %}
+  <div class="card" id="outer-card">
+    <div class="card" id="inner-card" style="padding:10px;">
+      <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group" style="height:50%;">
+            <legend class="border-bottom mb-4">Delete plan</legend>
+            <h2>Are you sure you want to remove the plan {{ object.title }}?</h2>
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-danger" type="submit">Yes, Delete</button>
+            <a class="btn btn-secondary" href="{% url 'plan-detail' object.id %}">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+{% endblock content %}

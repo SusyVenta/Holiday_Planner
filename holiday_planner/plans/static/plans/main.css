@@ -1,10 +1,41 @@
+h1{
+  color:orange !important;
+  padding:left !important;
+  padding:22px;
+}
 h2{
   color: white !important;
   padding:20px;
 }
 
+.title{
+  color:orange;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 200;
+  line-height: 1.2;
+}
+
+.title:hover{
+  color:orange;
+}
+
+.white_text{
+  color:white;
+}
+
+.white_text:hover{
+  color:white;
+}
+
+.rounded-circle.account-img.small{
+  height:70px;
+  width:70px;
+}
+
 body {
   background-color: #232323 !important;
+  height:100% !important;
 }
 
 .navbar-brand{
@@ -22,29 +53,96 @@ li.nav-item::marker:{
   color:white;
 }
 
-#outer-card{
-  float:none;
-  padding:25px;
-  background-color:#232323;
-  border-color:#232323
+#navbarDropdown{
+  color: white;
+}
+
+.nav-item.mr-4{
+  color: white;
+}
+
+.nav-item.mr-4:hover{
+  color: white;
+}
+
+.dropdown-menu.show{
+  background-color: #343a40;
+  border-color: #00eb9c;
+}
+
+.dropdown-item{
+  color: white !important;
+}
+.dropdown-item:hover{
+  color: black !important;
+}
+
+card{
+  border-color: #232323 !important;
+}
+
+.card.outer-card{
+  margin-right:20px;
+  margin-left:20px;
+  margin-top:20px;
+  margin-bottom:20px;
+  background-color: #232323;
+  border-color: #232323 !important
+}
+
+.card.outer-card.main-container{
+  display: flex;
+  width: 50%;
+  height: 75%;
+  max-height: 75%;
+}
+
+.card.outer-card.half-container{
+  flex: 0 0 100%;
+  max-height: 50%;
+  min-height: 50%;
+  max-width: 100%;
+  background: #0BDA51;
+  border: 1px solid red;
+  padding: .5em;
+  overflow: hidden;
 }
 
 #inner-card{
-   float:none;
-   background-color:#343a40;
-   color:white;
+   float: none;
+   background-color: #343a40;
+   color: white;
+   border-color: #343a40 !important;
+}
+
+.card-title{
+  color: #E69500;
 }
 
 .btn-primary{
-  background-color:#343a40 !important;
-  border-color:#00eb9c !important;
-  color:#00eb9c !important;
+  background-color: #343a40 !important;
+  border-color: #00eb9c !important;
+  color: #00eb9c !important;
 }
 
 .btn-outline-info{
   background-color:#343a40 !important;
   border-color:#00eb9c !important;
   color:#00eb9c !important;
+}
+
+.btn:hover{
+  border-color: #FFC65E !important;
+}
+
+.btn-info{
+  background-color: #00eb9c !important;
+  border-color: #00eb9c !important;
+  color:#343a40 !important;
+}
+
+.btn-info:hover{
+  color: #343a40 !important;
 }
 
 .btn-link{
@@ -64,10 +162,56 @@ label{
 }
 
 .account-img {
-  height: 125px;
-  width: 125px;
+  height: 100px;
+  width: 100px;
   margin-right: 20px;
   margin-bottom: 16px;
+}
+
+/* Column container */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Create two unequal columns that sits next to each other */
+/* Sidebar/left column */
+.side {
+  flex: 25%;
+  background-color: #232323;
+  padding: 20px;
+  border:1px solid !important;
+  border-color:#00eb9c !important;
+}
+
+/* Main column */
+.main {
+  flex: 75%;
+  background-color: #232323;
+  border:1px solid !important;
+  border-color:#00eb9c !important;
+}
+
+.main.inner {
+  background-color: #232323;
+  border:1px solid !important;
+  border-color:#00eb9c !important;
+  padding:20px;
+  height:50%;
+}
+
+/* Responsive layout - when the screen is less than 700px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 700px) {
+  .row, .navbar {
+    flex-direction: column;
+  }
+}
+
+iframe {
+  margin-top:10px;
+  height: 350px !important;
+  width: 100% !important;
+  overflow: hidden !important;
 }
 
 

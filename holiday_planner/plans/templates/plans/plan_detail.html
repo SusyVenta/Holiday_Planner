@@ -1,0 +1,35 @@
+{% extends "plans/base.html" %}
+{% block title %}My Plans{% endblock %}
+{% block head %}
+<!-- https://docs.djangoproject.com/en/2.0/ref/templates/builtins/#date  -->
+<h1> My Plans</h1>>
+{% endblock head%}
+{% block content %}
+  <div style="padding:50px">
+    <div class="card outer-card">
+      <div class="card outer-card">
+        <div class="card flex-row flex-wrap" id="inner-card">
+          <div class="card-header border-0" >
+              <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+          </div>
+          <div class="card-block px-2">
+              <h4 class="card-title">{{ plan.title}}</h4>
+              <p class="card-text">{{ plan.content}}</p>
+              <br>
+            <p class="card-text text-muted">Created by {{ plan.author }} on {{ plan.date_posted | date:"d M Y H:i"}}</p>
+            {% if object.author == user %}
+              <div>
+                <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'plan-update' object.id %}">Update</a>
+                <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'plan-delete' object.id %}">Delete</a>
+              </div>
+            {% endif %}
+          </div>
+          <div class="w-100"></div>
+          <div class="card-footer w-100 text-muted">
+          </div>
+        </div>
+      </div>
+     </div>
+
+  </div>
+{% endblock content%}

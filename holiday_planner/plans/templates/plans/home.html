@@ -1,90 +1,49 @@
 {% extends "plans/base.html" %}
+{% load static %}
+{% load friendshiptags %}
 {% block title %}Home{% endblock %}
-{% block head %}
-<h1> Play</h1>>
-{% endblock %}
 {% block content %}
-  <div style="padding:100px">
-    <div id="accordion">
-  <div class="card" id="inner-card">
-    <div class="card-header" id="headingOne">
-      <h5 class="mb-0">
-        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false"
-                aria-controls="collapseOne">
-          Login
-        </button>
-      </h5>
-    </div>
 
-    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-      <div class="card-body">
-        <form>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-            <small id="emailHelp1" class="form-text text-muted">We'll never share your email with anyone else.</small>
-          </div>
-          <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-          </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+{% if user.is_authenticated %}
+<div class="card outer-card">
+<div class="row">
+  <div class="side">
+    <div style="display:flex;justify-content:space-between;">
+    <a class="title" style="margin-right:auto;" href="{% url 'friendship_view_friends' user.username%}">FRIENDS</a>
+    <a class="btn btn-primary" href="{% url 'friendship_view_users' %}"
+       style="height:20px;width:30px;padding:0px;font-size:0.7rem;margin-left:auto;align-self:center;">+</a>
       </div>
-    </div>
+    <div style="height:46%;border:2px solid;border-color:white !important;">
+    {% if friends %}
+      {% for friend in friends %}
+      <li>
+        <p class="white_text">
+          <img class="rounded-circle account-img small" style="margin-bottom:0px;" src="{{ user.profile.image.url }}">
+          <a href="#" style="color:white;color:hover:white;">{{ friend }}</a>
+        </p>
+      </li>
+      {% endfor %}
+    {% else %}
+      <p class="white_text">YOU HAVEN'T ADDED ANY FRIENDS YET</p>
+    {% endif %}
+      </div>
+
+
   </div>
-  <div id="inner-card" class="card">
-    <div class="card-header" id="headingTwo">
-      <h5 class="mb-0">
-        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
-                aria-controls="collapseTwo">
-          Register
-        </button>
-      </h5>
+  <div class="main">
+    <div class="main inner">
+      <a class="title" href="#">PLACES I WANT TO VISIT</a>
+      <iframe class="embed-responsive-item" src="{% static 'plans/static_map.html' %}" allowfullscreen></iframe>
     </div>
-    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-      <div class="card-body">
-        <form>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Username</label>
-            <input type="text" class="form-control" id="inputUsername" aria-describedby="emailHelp" placeholder="Enter username">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email">
-            <small id="emailHelp2" class="form-text text-muted">We'll never share your email with anyone else.</small>
-          </div>
-          <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" id="inputPassword" placeholder="Password">
-            <small id="passwordHelp" class="form-text text-muted">Your password should be longer than 5 characters and
-                contain at least one upper case letter and one symbol.</small>
-          </div>
-          <button type="button"
-                  class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Submit</button>
-
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">You successfully registered!</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    You will receive an email soon with a link to activate your account.
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-        </form>
-      </div>
+    <div class="main inner">
+      <a class="title" href="#">PLACES I'VE BEEN</a>
+      <iframe style="width:900px; height:900px;" class="embed-responsive-item" src="{% static 'plans/static_map.html' %}" allowfullscreen></iframe>
     </div>
   </div>
 </div>
-    </div>
+</div>
+
+{% else %}
+<h1 style="color:white;">HOME!</h1>
+{% endif %}
 {% endblock %}

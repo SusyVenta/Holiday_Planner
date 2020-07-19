@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'friendship',
+    'friendship.apps.FriendshipConfig',
     'plans.apps.PlansConfig',
     'users.apps.UsersConfig',
     'crispy_forms',

@@ -10,6 +10,7 @@
   <div class="side">
     <div style="display:flex;justify-content:space-between;">
     <a class="title" style="margin-right:auto;" href="{% url 'friendship_view_friends' user.username%}">FRIENDS</a>
+    <!--friendship_view_users uses friendship/templates/user_actions.html -->
     <a class="btn btn-primary" href="{% url 'friendship_view_users' %}"
        style="height:20px;width:30px;padding:0px;font-size:0.7rem;margin-left:auto;align-self:center;">+</a>
       </div>
@@ -17,9 +18,9 @@
     {% if friends %}
       {% for friend in friends %}
       <li>
-        <p class="white_text">
+        <p>
           <img class="rounded-circle account-img small" style="margin-bottom:0px;" src="{{ user.profile.image.url }}">
-          <a href="#" style="color:white;color:hover:white;">{{ friend }}</a>
+          <a class="white_text" href="#" >{{ friend }}</a>
         </p>
       </li>
       {% endfor %}

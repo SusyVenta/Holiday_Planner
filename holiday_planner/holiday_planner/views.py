@@ -1,10 +1,18 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from friendship import Friend
 
+
+# def home(request):
+#     """ By default django looks at 'plans/templates/plans'"""
+#     return render(request, 'home.html')
 
 def home(request):
-    """ By default django looks at 'plans/templates/plans'"""
-    return render(request, 'home.html')
+    """ Passing user friends as context """
+    if request.user.is_authenticated:
+        friends = Friend.objects.friends(request.user)
+        print(friends)
+        return render(request, 'plans/home.html', context={"friends": friends})
+    return render(request, 'plans/home.html')
 
 
 

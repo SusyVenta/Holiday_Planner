@@ -20,7 +20,7 @@ class Profile(models.Model):
     exit()
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(default='default.png', upload_to=settings.MEDIA_ROOT)
+    image = models.ImageField(default='default.png', upload_to='profile_pics')
 
 
     def __str__(self):

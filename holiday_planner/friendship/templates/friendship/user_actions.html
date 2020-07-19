@@ -1,0 +1,45 @@
+{% extends "plans/base.html" %}
+{% block content %}
+<ul>
+ <h1> Add Friends: </h1>
+    <div style="display:flex;flex-direction:column;justify-content:center;">
+{% for list_user in friends_usernames %}
+  {% if user %}
+    {% if list_user.username != request.user.username %}
+    <div class="card outer-card">
+          <div id="inner-card" class="card-block px-2" style="display:flex;justify-content:space-between;">
+              <div style="margin-right:auto;">
+                <img class="rounded-circle account-img small" src="{{ user.profile.image.url }}">
+                <a class="white_text">{{ list_user }}</a>
+              </div>
+              <a class="btn btn-primary" href="{% url 'friendship_add_friend' list_user %}"
+       style="height:20px;width:30px;padding:0px;font-size:0.7rem;margin-left:auto;align-self:center;"
+              data-toggle="modal" data-target="#sendSuccessModal">+</a>
+          </div>
+    </div>
+    {% endif %}
+  {% endif %}
+{% endfor %}
+    </div>
+</ul>
+
+<!-- Modal -->
+<div class="modal fade" id="sendSuccessModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Friendship request sent!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Friends become visible from your profile as soon as they accept your request.
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-dismiss="modal" class="btn btn-primary">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

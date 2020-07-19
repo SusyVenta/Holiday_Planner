@@ -1,0 +1,19 @@
+{% extends "plans/base.html" %}
+{% block content %}
+{% if not to_username == request.user.username %}
+{% if errors %}<p>{{ errors|join:", " }}</p>{% endif %}
+<form method="post">
+{% csrf_token %}
+
+<div class="card outer-card" style="display:flex;width:100%;align-items:center;justify-content:center;">
+  <div class="card-block px-2" style="align-self:center;top:50%;">
+      <div style="margin-right:auto;">
+
+        <input type="hidden" name="to_username" value="{{ to_username }}" />
+        <input class="btn btn-primary" type="submit" value="add {{ to_username }} as a friend" />
+      </div>
+  </div>
+</div>
+</form>
+{% endif %}
+{% endblock content %}

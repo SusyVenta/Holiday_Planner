@@ -20,6 +20,7 @@ from friendship.views import (
     friendship_request_list_rejected,
     friendship_requests_detail,
     view_friends,
+    friends_overview
 )
 
 urlpatterns = [
@@ -28,6 +29,11 @@ urlpatterns = [
         regex=r"^friends/(?P<username>[\w-]+)/$",
         view=view_friends,
         name="friendship_view_friends",
+    ),
+    url(
+        regex=r"^friends_overview/$",
+        view=friends_overview,
+        name="friends_overview",
     ),
     url(
         regex=r"^friend/add/(?P<to_username>[\w-]+)/$",

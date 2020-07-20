@@ -107,6 +107,33 @@ def friendship_cancel(request, friendship_request_id):
 
 
 @login_required
+def remove_friend():
+    pass
+
+
+@login_required
+def friends_overview(request, template_name="friendship/friend/friends_overview.html"):
+    """ http://127.0.0.1:8000/friendship/friends/susanna/ """
+    """ View profile friends """
+    """ View unread and read friendship requests """
+    incoming_friendship_requests = Friend.objects.requests(request.user)
+    pending_friendship_requests = Friend.objects.sent_requests(request.user)
+    user = get_object_or_404(user_model, username=request.user.username)
+    friends = Friend.objects.friends(user)
+    return render(
+        request,
+        template_name,
+        {
+            get_friendship_context_object_name(): user,
+            "friendship_context_object_name": get_friendship_context_object_name(),
+            "friends": friends,
+            "incoming_requests": incoming_friendship_requests,
+            "pending_requests": pending_friendship_requests,
+        },
+    )
+
+
+@login_required
 def friendship_request_list(
     request, template_name="friendship/friend/requests_list.html"
 ):

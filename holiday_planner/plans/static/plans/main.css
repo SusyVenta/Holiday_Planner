@@ -9,7 +9,7 @@ h2{
 }
 
 .title{
-  color:orange;
+  color:orange !important;
   margin-bottom: 1rem;
   font-size: 1.5rem;
   font-weight: 200;
@@ -21,11 +21,15 @@ h2{
 }
 
 .white_text{
-  color:white;
+  color:white !important;
+}
+
+ul ul {
+  color:white !important;
 }
 
 .white_text:hover{
-  color:white;
+  color:white !important;
 }
 
 .rounded-circle.account-img.small{
@@ -169,14 +173,14 @@ label{
 }
 
 /* Column container */
-.row {
+.row.home {
   display: flex;
   flex-wrap: wrap;
 }
 
 /* Create two unequal columns that sits next to each other */
 /* Sidebar/left column */
-.side {
+.side.home {
   flex: 25%;
   background-color: #232323;
   padding: 20px;
@@ -185,8 +189,32 @@ label{
 }
 
 /* Main column */
-.main {
+.main.home {
   flex: 75%;
+  background-color: #232323;
+  border:1px solid !important;
+  border-color:#00eb9c !important;
+}
+
+/* Column container */
+.row.friends {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Create two unequal columns that sits next to each other */
+/* Sidebar/left column */
+.side.friends {
+  flex: 60%;
+  background-color: #232323;
+  padding: 20px;
+  border:1px solid !important;
+  border-color:#00eb9c !important;
+}
+
+/* Main column */
+.main.friends {
+  flex: 40%;
   background-color: #232323;
   border:1px solid !important;
   border-color:#00eb9c !important;

@@ -2,38 +2,29 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <!-- https://docs.djangoproject.com/en/3.0/howto/static-files/#serving-static-files-during-development -->
-  <div class="card outer-card main-container">
-    <div class="card outer-card half-container">
-      <div class="card outer-card half-container">
-        <h2>Test</h2>
-      </div>
-      <div class="card outer-card">
-          <div class="card" id="inner-card" style="padding:10px;">
-            <div class="content-section">
-              <div class="media">
-                <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
-                <div class="media-body">
-                  <h2 class="account-heading">{{ user.username }}</h2>
-                  <p class="text-secondary">{{ user.email }}</p>
-                </div>
-              </div>
-          <!-- Need  enctype="multipart/form-data" for images to be saved in background-->
-              <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-              <fieldset class="form-group" style="height:50%;">
-                <legend class="border-bottom mb-4">Profile Info</legend>
-                  {{ user_form|crispy }}
-                  {{ profile_form|crispy }}
-                </fieldset>
-                <div class="form-group">
-                    <button class="btn btn-outline-info" type="submit">Update</button>
-                </div>
-              </form>
+<div style="display:flex;justify-content:center;">
+  <div class="card outer-card main-container" style="width:50%;">
+      <div class="card" id="inner-card" style="padding:10px;">
+          <div class="media">
+            <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+            <div class="media-body">
+              <h2 class="account-heading">{{ user.username }}</h2>
+              <p class="text-secondary">{{ user.email }}</p>
             </div>
           </div>
-      </div>
-    </div>
-
+      <!-- Need  enctype="multipart/form-data" for images to be saved in background-->
+          <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+          <fieldset class="form-group" style="height:50%;">
+            <legend class="border-bottom mb-4">Profile Info</legend>
+              {{ user_form|crispy }}
+              {{ profile_form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Update</button>
+            </div>
+          </form>
+        </div>
   </div>
-
+</div>
 {% endblock content %}

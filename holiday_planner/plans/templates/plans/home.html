@@ -6,8 +6,8 @@
 
 {% if user.is_authenticated %}
 <div class="card outer-card">
-<div class="row">
-  <div class="side">
+<div class="row home">
+  <div class="side home">
     <div style="display:flex;justify-content:space-between;">
     <a class="title" style="margin-right:auto;" href="{% url 'friendship_view_friends' user.username%}">FRIENDS</a>
     <!--friendship_view_users uses friendship/templates/user_actions.html -->
@@ -31,7 +31,7 @@
 
 
   </div>
-  <div class="main">
+  <div class="main home">
     <div class="main inner">
       <a class="title" href="#">PLACES I WANT TO VISIT</a>
       <iframe class="embed-responsive-item" src="{% static 'plans/static_map.html' %}" allowfullscreen></iframe>

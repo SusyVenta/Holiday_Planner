@@ -37,7 +37,8 @@
       </li>
     </ul>
     <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+         aria-haspopup="true" aria-expanded="false">
         My Holiday Plans
       </a>
       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -51,14 +52,28 @@
     <ul class="navbar-nav mr-auto"></ul>
     {% endif %}
     {% if user.is_authenticated %}
-      <a class="nav-item mr-4" href= "{% url 'profile' %}">Profile</a>
+    <div class="navbar-nav mr-4" style="position:relative;">
+      <a class="nav-item dropdown mr-4" >
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" data-reference="parent"
+           role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:white;">
+          Profile
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown2" style="position:absolute !important;">
+          <a class="dropdown-item" href="{% url 'profile' %}">Personal Info</a>
+          <a class="dropdown-item" href="{% url 'friends_overview' %}">Friends</a>
+        </div>
+      </a>
+    </div>
+    <div>
       <a class="nav-item mr-4" href= "{% url 'logout' %}">Log out</a>
+      <a class="nav-item mr-4" href = "mailto: sample-mail@hotmail.com">Contact us</a>
+    </div>
     {% else %}
     <ul></ul>
       <a class="nav-item mr-4" href= "{% url 'login' %}">Log in</a>
       <a class="nav-item mr-4" href = "{% url 'register' %}">Register</a>
+    <a class="nav-item mr-4" href = "mailto: sample-mail@hotmail.com">Contact us</a>
     {% endif %}
-      <a class="nav-item mr-4" href = "mailto: sample-mail@hotmail.com">Contact us</a>
 
   </div>
 </nav>

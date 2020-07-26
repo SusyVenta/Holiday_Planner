@@ -26,12 +26,12 @@ class Profile(models.Model):
     def __str__(self):
         return f"{self.user.username} Profile"
 
-    def save(self):
+    def save(self, *args, **kwargs):
         """ Runs after model is saved. Method already exists in parent class, but I'm extendign it to add functionality.
          To run parent class method: super().save()
          When saving I also want to remove user's old image
          """
-        super().save()
+        super().save(*args, **kwargs)
         """ Open instance of the image and resize it to smaller whenever image is updated / saved """
         image = Image.open(self.image.path)
         if image.height > 300 or image.width > 300:

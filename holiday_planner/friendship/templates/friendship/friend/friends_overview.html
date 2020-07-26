@@ -1,57 +1,65 @@
 {% extends "plans/base.html" %}
 {% block content %}
-<div class="card outer-card">
+<div class="card outer-card" style="height:90%;margin-bottom:0px !important;">
 <div class="row friends">
   <div class="side friends">
     <div style="display:flex;justify-content:space-between;">
-    <a class="title" style="margin-right:auto;">FRIENDS</a>
-    <!--friendship_view_users uses friendship/templates/user_actions.html -->
-    <a class="btn btn-primary" href="{% url 'friendship_view_users' %}"
-       style="height:20px;width:100px;padding:0px;font-size:0.7rem;margin-left:auto;align-self:center;">Find New Friends</a>
-      </div>
-    <div style="height:90%;border:2px solid;border-color:white !important;">
+      <a class="title" style="margin-right:auto;">FRIENDS</a>
+      <!--friendship_view_users uses friendship/templates/user_actions.html -->
+      <a class="btn btn-primary" href="{% url 'friendship_view_users' %}"
+         style="height:25px;width:120px;padding:0px;font-size:0.9rem;margin-left:auto;align-self:center;">Find New Friends</a>
+    </div>
+    <div data-simplebar style="height:90%;width=100%;overflow-y:auto;">
     {% if friends %}
       {% for friend in friends %}
-      <li>
-        <p>
-          <img class="rounded-circle account-img small" style="margin-bottom:0px;" src="{{ user.profile.image.url }}">
-          <a class="white_text" href="#" >{{ friend }}</a>
-        </p>
-      </li>
+      <p>
+        <img class="rounded-circle account-img small" style="margin-bottom:0px;" src="{{ user.profile.image.url }}">
+        <a class="white_text" href="#" >{{ friend }}</a>
+      </p>
       {% endfor %}
     {% else %}
       <p class="white_text">YOU HAVEN'T ADDED ANY FRIENDS YET</p>
     {% endif %}
-      </div>
-
-
+    </div>
   </div>
   <div class="main friends">
-    <div class="main inner" style="height:400px;">
-      <a class="title">REQUESTS RECEIVED:</a>
-      <div style="margin-top:10px;">
-        {% for friendship_request in incoming_requests %}
-          <div class="card flex-row flex-wrap" style="display:flex;justify-content:space-between;" id="inner-card">
-            <a class="white_text" style="margin-right:auto;">{{ friendship_request.to_user }}</a>
-            <a class="btn btn-primary" href="{% url 'friendship_requests_detail' friendship_request.id %}"
-                    style="height:20px;width:60px;padding:0px;font-size:0.7rem;margin-left:auto;align-self:center;">view</a>
+    <div class="main inner" style="height:50%">
+      <p class="title">REQUESTS RECEIVED:</p>
+      <div data-simplebar style="height:80%;width=100%;overflow-y:auto;">
+          {% for friendship_request in incoming_requests %}
+        <div style="padding:35px;">
+          <div style="float:left;">
+            <img class="rounded-circle account-img small" style="margin-bottom:0px;" src="{{ user.profile.image.url }}">
+            <a class="white_text">{{ friendship_request.from_user }}</a>
           </div>
+          <div style="float:right;">
+            <form style="float:left;" method="post" action="{% url 'friendship_accept' friendship_request.pk %}">
+            {% csrf_token %}
+              <input class="btn btn-primary" style="width:55px;height:25px;padding:0px;font-size:0.9rem;margin-top:15px;" type="submit" value="accept" />
+            </form>
+            <form style="float:right;margin-left:10px;" method="post" action="{% url 'friendship_reject' friendship_request.pk %}">
+            {% csrf_token %}
+              <input class="btn btn-primary" style="width:55px;height:25px;padding:0px;font-size:0.9rem;margin-top:15px;" type="submit" value="reject" />
+            </form>
+          </div>
+        </div>
           {% empty %}
+          <div class="white_text">No pending requests</div>
+          {% endfor %}
       </div>
-      <div class="white_text">No pending requests</div>
-        {% endfor %}
     </div>
-    <div class="main inner" style="height:400px;">
-      <a class="title">REQUESTS SENT STILL PENDING:</a>
-      <div style="padding-top:10px;">
-        {% for friendship_request in pending_requests %}
-          <div class="card flex-row flex-wrap" style="display:flex;justify-content:space-between;" id="inner-card">
-            <a class="white_text" style="margin-right:auto;">{{ friendship_request.to_user }}</a>
-          </div>
+    <div class="main inner" style="height:50%;">
+      <p class="title">REQUESTS SENT STILL PENDING:</p>
+      <div data-simplebar style="height:80%;width=100%;overflow-y:auto;">
+          {% for friendship_request in pending_requests %}
+        <p>
+          <img class="rounded-circle account-img small" style="margin-bottom:0px;" src="{{ user.profile.image.url }}">
+          <a class="white_text">{{ friendship_request.to_user }}</a>
+        </p>
           {% empty %}
+          <div class="white_text">No pending requests</div>
+          {% endfor %}
       </div>
-      <div>no requests :(</div>
-      {% endfor %}
     </div>
   </div>
 </div>

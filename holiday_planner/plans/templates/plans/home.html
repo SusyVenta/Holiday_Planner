@@ -14,15 +14,13 @@
     <a class="btn btn-primary" href="{% url 'friendship_view_users' %}"
        style="height:20px;width:30px;padding:0px;font-size:0.7rem;margin-left:auto;align-self:center;">+</a>
       </div>
-    <div style="height:46%;border:2px solid;border-color:white !important;">
+    <div data-simplebar style="overflow-y:auto;height:90%;">
     {% if friends %}
       {% for friend in friends %}
-      <li>
         <p>
           <img class="rounded-circle account-img small" style="margin-bottom:0px;" src="{{ user.profile.image.url }}">
           <a class="white_text" href="#" >{{ friend }}</a>
         </p>
-      </li>
       {% endfor %}
     {% else %}
       <p class="white_text">YOU HAVEN'T ADDED ANY FRIENDS YET</p>

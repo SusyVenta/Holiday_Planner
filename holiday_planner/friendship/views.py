@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib import messages
 
 from friendship.exceptions import AlreadyExistsError
 from friendship.models import Block, Follow, Friend, FriendshipRequest
@@ -42,6 +43,25 @@ def view_friends(request, username, template_name="friendship/friend/user_list.h
 
 
 @login_required
+def all_addable_users(request, template_name="friendship/user_actions.html"):
+    """ :returns list of users registered to the app that are not already friends """
+    users = user_model.objects.all()
+    friends = Friend.objects.friends(request.user)
+    friends_usernames = []
+    if len(friends) > 0:
+        for friend in friends:
+            friends_usernames.append(friend.username)
+    users_to_add_usernames = []
+    if len(users) > 0:
+        for user in users:
+            if (user.username not in friends_usernames) and user.username != request.user.username:
+                users_to_add_usernames.append(user.username)
+    return render(
+        request, template_name, {"friends_usernames": users_to_add_usernames}
+    )
+
+
+@login_required
 def friendship_add_friend(
     request, to_username, template_name="friendship/friend/add.html"
 ):
@@ -53,11 +73,11 @@ def friendship_add_friend(
         from_user = request.user
         try:
             Friend.objects.add_friend(from_user, to_user)
+            messages.success(request, f"Friend request to {to_user} sent!")
         except AlreadyExistsError as e:
             ctx["errors"] = ["%s" % e]
         """ If request is sent, I want to redirect user to a view containing pending requests """
-        return redirect("friendship_request_list")
-
+        return redirect("friends_overview")
     return render(request, template_name, ctx)
 
 
@@ -69,7 +89,7 @@ def friendship_accept(request, friendship_request_id):
             request.user.friendship_requests_received, id=friendship_request_id
         )
         f_request.accept()
-        return redirect("friendship_view_friends", username=request.user.username)
+        return redirect("friends_overview")
 
     return redirect(
         "friendship_requests_detail", friendship_request_id=friendship_request_id
@@ -84,7 +104,8 @@ def friendship_reject(request, friendship_request_id):
             request.user.friendship_requests_received, id=friendship_request_id
         )
         f_request.reject()
-        return redirect("friendship_request_list")
+        f_request.cancel()
+        return redirect("friends_overview")
 
     return redirect(
         "friendship_requests_detail", friendship_request_id=friendship_request_id
@@ -99,7 +120,7 @@ def friendship_cancel(request, friendship_request_id):
             request.user.friendship_requests_sent, id=friendship_request_id
         )
         f_request.cancel()
-        return redirect("friendship_request_list")
+        return redirect("friends_overview")
 
     return redirect(
         "friendship_requests_detail", friendship_request_id=friendship_request_id
@@ -228,24 +249,6 @@ def follower_remove(
         return redirect("friendship_following", username=follower.username)
 
     return render(request, template_name, {"followee_username": followee_username})
-
-@login_required
-def all_addable_users(request, template_name="friendship/user_actions.html"):
-    """ :returns list of users registered to the app that are not already friends """
-    users = user_model.objects.all()
-    friends = Friend.objects.friends(request.user)
-    friends_usernames = []
-    if len(friends) > 0:
-        for friend in friends:
-            friends_usernames.append(friend.username)
-    users_to_add_usernames = []
-    if len(users) > 0:
-        for user in users:
-            if (user.username not in friends_usernames) and user.username != request.user.username:
-                users_to_add_usernames.append(user.username)
-    return render(
-        request, template_name, {"friends_usernames": users_to_add_usernames}
-    )
 
 
 def blocking(request, username, template_name="friendship/block/blockers_list.html"):

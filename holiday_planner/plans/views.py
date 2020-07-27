@@ -14,9 +14,9 @@ from django.views.generic import (
     TemplateView
 )
 from django.contrib.auth.models import User
-from friendship.models import Friend, Follow, Block
+from friendship.models import Friend
 from .models import Plan
-from holiday_planner.settings import BASE_DIR
+from user_maps.maps_creation import MapCreation
 
 """ Fake data for plans """
 plans = [
@@ -38,6 +38,7 @@ plans = [
 
 
 def home(request):
+    MapCreation().create_base_map()
     """ Passing user friends as context """
     if request.user.is_authenticated:
         friends = Friend.objects.friends(request.user)

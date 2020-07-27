@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'friendship.apps.FriendshipConfig',
     'plans.apps.PlansConfig',
     'users.apps.UsersConfig',
+    'user_maps.apps.UserMapsConfig',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',

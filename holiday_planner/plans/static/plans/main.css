@@ -130,6 +130,12 @@ card{
   color: #00eb9c !important;
 }
 
+.btn-secondary{
+  background-color: #343a40 !important;
+  border-color: #00eb9c !important;
+  color: #00eb9c !important;
+}
+
 .btn-outline-info{
   background-color:#343a40 !important;
   border-color:#00eb9c !important;
@@ -242,6 +248,17 @@ iframe {
 
 .simplebar-scrollbar::before {
   background: orange !important;
+}
+
+.scrollable-menu {
+    width: 350px;
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
+
+ul {
+    list-style-type: none;
 }
 
 

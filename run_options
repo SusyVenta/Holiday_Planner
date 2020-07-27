@@ -1,6 +1,4 @@
 run --> edit configurations
-
-startapp upload_section
 runserver
 
 

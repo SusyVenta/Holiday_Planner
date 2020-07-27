@@ -32,11 +32,11 @@
   <div class="main home">
     <div class="main inner">
       <a class="title" href="#">PLACES I WANT TO VISIT</a>
-      <iframe class="embed-responsive-item" src="{% static 'plans/static_map.html' %}" allowfullscreen></iframe>
+      <iframe class="embed-responsive-item" src="{% static 'user_maps/static_map.html' %}" allowfullscreen></iframe>
     </div>
     <div class="main inner">
-      <a class="title" href="#">PLACES I'VE BEEN</a>
-      <iframe style="width:900px; height:900px;" class="embed-responsive-item" src="{% static 'plans/static_map.html' %}" allowfullscreen></iframe>
+      <a class="title" href="{% url 'places-visited' %}">PLACES I'VE BEEN</a>
+      <iframe style="width:900px; height:900px;" class="embed-responsive-item" src="{% static 'user_maps/static_map.html' %}" allowfullscreen></iframe>
     </div>
   </div>
 </div>

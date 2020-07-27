@@ -19,7 +19,7 @@ class Profile(models.Model):
     user.profile.image.width
     exit()
     """
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(to=User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.png', upload_to='profile_pics')
 
 

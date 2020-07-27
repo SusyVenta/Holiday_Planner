@@ -35,6 +35,7 @@ urlpatterns = [
          name="password_reset_confirm"),
     path('', include("plans.urls")),
     path('friendship/', include('friendship.urls')),
+    path('', include("user_maps.urls")),
 ]
 
 if settings.DEBUG:

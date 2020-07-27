@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 import os
 from django.conf import settings
 
@@ -27,12 +26,15 @@ def register(request):
 
 
 def remove_old_profile_picture(old_picture_path):
-    os.remove(os.path.join(settings.BASE_DIR, "media", old_picture_path))
+    old_picture = os.path.join(settings.BASE_DIR, "media", old_picture_path)
+    default_picture = os.path.join(settings.BASE_DIR, "media", "default.png")
+    if old_picture != default_picture:
+        os.remove(old_picture)
 
 
 @login_required
 def profile(request):
-    current_image_path = str(User.objects.filter(username=request.user.username).first().profile.image)
+    current_image_path = str(request.user.profile.image)
     if request.method == "POST":
         user_form = UserUpdateForm(request.POST, instance=request.user)
         profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)

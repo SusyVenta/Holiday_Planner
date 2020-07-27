@@ -18,7 +18,7 @@
     {% if friends %}
       {% for friend in friends %}
         <p>
-          <img class="rounded-circle account-img small" style="margin-bottom:0px;" src="{{ user.profile.image.url }}">
+          <img class="rounded-circle account-img small" style="margin-bottom:0px;" src="{{ friend.profile.image.url }}">
           <a class="white_text" href="#" >{{ friend }}</a>
         </p>
       {% endfor %}

@@ -4,31 +4,56 @@ from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 from PIL import Image
 from users.models import Profile
+from .select_countries_and_cities import select_countries_options
+import json
+from multiselectfield import MultiSelectField
 
 
-class CountryVisited(models.Model):
+class PlacesVisited(models.Model):
     """
-    CountryVisited is a ManyToOne field to user Profile. Each user profile can have multiple countries visited
-    If user gets deleted, it deletes their profile.
-    After creating a model, run makemigrations and migrate
-
-    Will be able to access coutries visited with related name specified: user.countries_visited
+    Model to populate drop-down menus with places visited.
+    to see places visited by user: request.user.placesvisited.countries
     """
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-    user = models.ForeignKey(to=Profile,
-                             related_name='countries_visited',
-                             on_delete=models.CASCADE)
-    country_visited = models.TextField()
+    asian_countries_choices = select_countries_options("Asia")
+    european_countries_choices = select_countries_options("Europe")
+    african_countries_choices = select_countries_options("Africa")
+    antarctic_countries_choices = select_countries_options("Antarctica")
+    oceania_countries_choices = select_countries_options("Oceania")
+    south_america_countries_choices = select_countries_options("South America")
+    north_america_countries_choices = select_countries_options("North America")
+
+    asian_countries = MultiSelectField(choices=asian_countries_choices, null=True, blank=True)
+    european_countries = MultiSelectField(choices=european_countries_choices, null=True, blank=True)
+    african_countries = MultiSelectField(choices=african_countries_choices, null=True, blank=True)
+    antarctic_countries = MultiSelectField(choices=antarctic_countries_choices, null=True, blank=True)
+    oceania_countries = MultiSelectField(choices=oceania_countries_choices, null=True, blank=True)
+    south_american_countries = MultiSelectField(choices=south_america_countries_choices, null=True, blank=True)
+    north_american_countries = MultiSelectField(choices=north_america_countries_choices, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.user.country_visited} CoutryVisited"
+        return f"{self.user} visited_places"
 
-    def save(self, *args, **kwargs):
-        """ Runs after model is saved. Method already exists in parent class, but I'm extending it to add functionality.
-         To run parent class method: super().save()
-         """
 
-        """ Open instance of the image and resize it to smaller whenever image is updated / saved """
-        if len(self.country_visited) > 0:
-            self.country_visited = self.country_visited.capitalize()
-        super(CountryVisited, self).save(*args, **kwargs)
+# class PlacesToVisit(models.Model):
+#     """
+#     Each user will have, associated to them:
+#     - a json containing the countries they want to visit
+#     - a json containing the cities they want to visit
+#
+#     to see places the user wants to visit: request.user.placestovisit.countries
+#     """
+#
+#     user = models.OneToOneField(to=User, on_delete=models.CASCADE)
+#     countries = models.TextField()
+#     cities = models.TextField()
+#
+#     def set_countries_list_to_json(self, x):
+#         self.foo = json.dumps(x)
+#
+#     def get_countries_list_from_json(self, x):
+#         return json.loads(self.foo)
+#
+#     def __str__(self):
+#         return f"{self.user.username} PlacesToVisit"

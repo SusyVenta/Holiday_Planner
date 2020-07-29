@@ -1,20 +1,33 @@
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 from django.dispatch import receiver
-from .models import Profile
+from .models import PlacesVisited
 
 
 @receiver(post_save, sender=User)
-def create_profile(sender, instance, created, **kwargs):
-    """ Whenever a user is saved, a signal is sent to the receiver (receiver= create profile function) """
+def create_places_visited(sender, instance, created, **kwargs):
+    """ Whenever a user is saved, a signal is sent to the receiver (receiver= create places visited model) """
     if created:
-        Profile.objects.create(user=instance)
+        PlacesVisited.objects.create(user=instance)
 
 
 @receiver(post_save, sender=User)
-def save_profile(sender, instance, **kwargs):
-    """ Save profile whenever the profile is saved """
-    instance.profile.save()
+def save_places_visited(sender, instance, **kwargs):
+    """ Save places visited whenever there is a new submission """
+    instance.placesvisited.save()
+
+
+@receiver(post_save, sender=User)
+def create_places_to_visit(sender, instance, created, **kwargs):
+    """ Whenever a user is saved, a signal is sent to the receiver (receiver= create places to visit model) """
+    if created:
+        PlacesVisited.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_places_to_visit(sender, instance, **kwargs):
+    """ Save places visited whenever there is a new submission """
+    instance.placestovisit.save()
 
 
 

@@ -51,13 +51,13 @@ def all_addable_users(request, template_name="friendship/user_actions.html"):
     if len(friends) > 0:
         for friend in friends:
             friends_usernames.append(friend.username)
-    users_to_add_usernames = []
+    users_to_add = []
     if len(users) > 0:
         for user in users:
             if (user.username not in friends_usernames) and user.username != request.user.username:
-                users_to_add_usernames.append(user.username)
+                users_to_add.append(user)
     return render(
-        request, template_name, {"friends_usernames": users_to_add_usernames}
+        request, template_name, {"friends_usernames": users_to_add}
     )
 
 

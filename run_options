@@ -27,3 +27,7 @@ runserver
 
 
 http://127.0.0.1:8000/upload_section/
+
+
+
+py -3.6 manage.py dbshell

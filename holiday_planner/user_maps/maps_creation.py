@@ -44,10 +44,11 @@ class MapCreation:
         """
         function which returns color of the map.
         if name of chosen country is equal to the country name from json file it returns red colour
-        for that country, if not it returns blue"""
+        for that country, if not it returns blue
 
-        for x in countries_list:
-            if x in country_data['properties']['NAME']:
-                return 'blue'
+        country_data['properties']['NAME']:: country name
+        """
+        if country_data['properties']['NAME'] in countries_list:
+            return "blue"
         else:
-            return 'green'
+            return "green"

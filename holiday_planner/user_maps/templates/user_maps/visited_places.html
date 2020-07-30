@@ -2,14 +2,64 @@
 {% load static %}
 {% load friendshiptags %}
 {% block content %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script>
+    var test = ""
+    $(document).ready(function() {
+        $('.dropdown-item').click(function() {
+            // alert($(this).attr("value"));
+            var selected_country = $(this).attr("value");
+
+            // console.log(selected_country);
+        });
+    });
+    console.log(test)
+    console.log(selected_country);
+    $(function() {
+        $(document).ready(function() {
+            $('.dropdown-item').click(function() {
+                // alert($(this).attr("value"));
+                var selected_country = $(this).attr("value");
+
+                // console.log(selected_country);
+
+                $.getJSON("{% static 'user_maps/cities_by_country.json' %}", function(data) {
+
+                    var selected_value = $dropdown.val();
+                    var vals = [];
+
+                    $.each( data, function( key, val ) {
+                        if (key == selected_country) {
+                            vals.push( val );
+                        }
+                    });
+                    console.log(vals);
+
+                    var $jsontwo = $("#json-two");
+                    $jsontwo.empty();
+                    $.each(vals, function(index, value) {
+                        console.log("appending this")
+                        console.log(value);
+                        $.each(value, function(index, element) {
+                            console.log("appending this")
+                            console.log(element);
+                            $jsontwo.append("<option>" + element + "</option>");
+                        });
+                    });
+                });
+            });
+        });
+
+    });
+</script>
+
 <h2 align="center"> PLACES I'VE BEEN </h2>
 <div class="card outer-card" >
-  <div class="main inner" style="border:none !important;">
-      <div align="center" class="container mb-3" style="align-content:space-around;">
+  <div class="main inner" style="border-bottom:none !important; border-left:none !important; border-right:none !important;">
+      <div class="container mb-3">
           <form method="POST">
         {% csrf_token %}
-
-            <div class="row col-10 offset-1 mb-2">
+            <div class="mb-3" style="display:flex;flex-wrap:wrap;justify-content:space-between;">
 
     <!--dropdown Asia-->
                 <div class="dropdown p-1">
@@ -86,7 +136,7 @@
 
     <!--Form Button-->
 
-            <div class="button">
+            <div style="display:flex;flex-wrap:wrap;justify-content:center;" class="button">
 
                 <button type="submit" class="btn btn-secondary btn-lg ">Submit & Show Map </button>
 
@@ -94,6 +144,37 @@
 
         </form>
       </div>
+  </div>
+  <div class="main inner" style="border-bottom:none !important; border-left:none !important; border-right:none !important;">
+      <form method="POST">
+        {% csrf_token %}
+            {% if countries_visited %}
+            <div>
+                <div class="dropdown p-1" >
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Select a country you visited
+                    </button>
+                    <div class="dropdown-menu" id="options" aria-labelledby="dropdownMenu2" >
+                        {% for country_visited in countries_visited %}
+                        <button class="dropdown-item" type="button" value="{{country_visited}}">{{country_visited}}</button>
+                        {% endfor %}
+                    </div>
+                        <div class="dropdown-menu scrollable-menu">{{visited}}</div>
+                </div>
+                <select class="dropdown jquery" id="json-one">
+                    <option selected value="base">Please Select</option>
+                    {% for country_visited in countries_visited %}
+                        <option value="{{country_visited}}">{{country_visited}}</option>
+                    {% endfor %}
+                </select>
+                <br/>
+
+                <select id="json-two">
+                    <option>Please choose from above</option>
+                </select>
+            </div>
+            {% endif %}
+      </form>
   </div>
   <div class="main inner">
       <iframe style="height:600px !important;" class="embed-responsive-item" src="{% static 'user_maps/static_map.html' %}" allowfullscreen></iframe>

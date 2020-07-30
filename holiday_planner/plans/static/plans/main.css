@@ -82,6 +82,22 @@ li.nav-item::marker:{
   color: black !important;
 }
 
+.dropdown.jquery{
+  background-color: #343a40;
+  border-color: #00eb9c;
+  color: #00eb9c;
+}
+
+.dropdown.jquery:hover{
+  background-color: #343a40;
+  color:white;
+}
+
+.dropdown.jquery{
+  background-color: #343a40;
+  border-color: #00eb9c;
+}
+
 card{
   border-color: #232323 !important;
 }

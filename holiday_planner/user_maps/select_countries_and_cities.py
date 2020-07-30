@@ -5,31 +5,25 @@ import json
 
 def select_cities_options():
     """
-    Function to create a form 'CountriesUpdateForm' values.
-    It is using a json file('country_by_continent.json').
-    It sorts a countries' names by continent and saves it as an lists for all continents.
-    Function returns options for all continent.
+    Returns a dictionary with tuple of cities by country key. Will be used to populate city by country drop-down menus.
     """
-    countries_cities_map = {}
+    options_by_country = {}
 
-    with open(os.path.join(BASE_DIR, 'user_maps', 'static', 'user_maps',
-                           'all_cities_with_population_1000.geojson.json'), mode='r') as file:
+    with open(os.path.join(BASE_DIR, 'user_maps', 'static', 'user_maps', 'cities_by_country.json'), mode='r') as file:
         content = json.load(file)
-        for entry in content["features"]:
-            print(entry)
-            for entry_property in entry["properties"]:
-                print(entry_property)
-                if "Country" in entry_property.keys():
+        for country in content:
+            if country not in options_by_country.keys():
+                options_by_country[country] = []
+                for city in content[country]:
+                    options_by_country[country].append((city, city))
 
-                    if entry_property["Country"] not in countries_cities_map.keys():
-                        countries_cities_map[entry_property["Country"]] = []
-                countries_cities_map[entry_property["Country"]].append(entry_property['City'])
-    return countries_cities_map
+    print(f"options_by_country: {options_by_country}")
+    return options_by_country
 
 
 def select_countries_options(continent):
     """
-    Function to create a form 'CountriesUpdateForm' values.
+    Function used by model 'PlacesVisited' to populate drop-down menus by continent with all country options.
     It is using a json file('country_by_continent.json').
     It sorts a countries' names by continent and saves it as an lists for all continents.
     Function returns options for all continent.

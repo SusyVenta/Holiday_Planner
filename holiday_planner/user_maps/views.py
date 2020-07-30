@@ -15,7 +15,8 @@ except ImportError:
     from django.contrib.auth.models import User
 
     user_model = User
-
+from .select_countries_and_cities import select_cities_options
+from multiselectfield import MultiSelectField
 
 # from django.db import connection
 # tables = connection.introspection.table_names()
@@ -44,6 +45,18 @@ class VisitedCountriesView(LoginRequiredMixin, ListView):
         upon it """
 
         """ Get countries visited in the form of a list"""
+        europe2 = request.user.placesvisited.european_countries
+        asia2 = request.user.placesvisited.asian_countries
+        africa2 = request.user.placesvisited.african_countries
+        oceania2 = request.user.placesvisited.oceania_countries
+        antarctica2 = request.user.placesvisited.antarctic_countries
+        north_america2 = request.user.placesvisited.north_american_countries
+        south_america2 = request.user.placesvisited.south_american_countries
+        countries_list2 = europe2 + africa2 + oceania2 + antarctica2 + north_america2 + south_america2 + asia2
+
+
+
+
         europe = str(request.user.placesvisited.european_countries).split(",")
         asia = str(request.user.placesvisited.asian_countries).split(",")
         africa = str(request.user.placesvisited.african_countries).split(",")
@@ -57,9 +70,18 @@ class VisitedCountriesView(LoginRequiredMixin, ListView):
             cleaned_item = element.strip()
             if cleaned_item != "":
                 cleaned_list.append(cleaned_item)
-        print(f"countries visited: {cleaned_list}")
         """ Refreshes map, highlighting countries visited """
         MapCreation().create_base_map(cleaned_list)
+        countries_visited_drop_down = []
+        for country in cleaned_list:
+            countries_visited_drop_down.append((country, country))
         form = CountriesUpdateForm(instance=request.user.placesvisited)
-        return render(request, self.template_name, {'form': form})
+        """ Need to pass cities available for countries visited """
+        print(f"countries visited: {cleaned_list}\n")
+        visited = MultiSelectField(choices=countries_visited_drop_down, default="-", blank=True)
+        # print(request.user.placesvisited.filter(antarctica))
+        all_cities = select_cities_options()
+
+        return render(request, self.template_name, {'form': form, 'countries_visited': cleaned_list,
+                                                    'countries_and_cities': all_cities, "visited": countries_visited_drop_down})
 

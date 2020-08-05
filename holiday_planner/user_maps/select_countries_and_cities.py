@@ -3,21 +3,21 @@ import os
 import json
 
 
-def select_cities_options():
+def select_cities_options(country_in):
     """
-    Returns a dictionary with tuple of cities by country key. Will be used to populate city by country drop-down menus.
+    country_in = 'United States'
+    Returns a list with tuple of cities for country_in. Will be used to populate city by country drop-down menus.
     """
-    options_by_country = {}
-
+    options_by_country = []
+    if country_in == "Default":
+        options_by_country.append((" ", " "))
+        return options_by_country
     with open(os.path.join(BASE_DIR, 'user_maps', 'static', 'user_maps', 'cities_by_country.json'), mode='r') as file:
         content = json.load(file)
         for country in content:
-            if country not in options_by_country.keys():
-                options_by_country[country] = []
+            if country == str(country_in):
                 for city in content[country]:
-                    options_by_country[country].append((city, city))
-
-    print(f"options_by_country: {options_by_country}")
+                    options_by_country.append((city, city))
     return options_by_country
 
 
@@ -68,3 +68,39 @@ def select_countries_options(continent):
         return options_south_america
     elif continent == 'North America':
         return options_north_america
+
+
+def construct_cities_model():
+    """ substitute:
+    - spaces with _
+    - apostrophe with nothing
+
+    """
+    with open(os.path.join(BASE_DIR, 'user_maps', 'static', 'user_maps', 'country_by_continent.json'), mode='r') as file:
+        content = json.load(file)
+        for x in content:
+            country = x['country']
+            country_variable = country.replace("-", "").replace(" ", "").replace("'", "").replace("(", "")\
+                .replace(")", "").replace(",", "")
+            print(f'\n\nclass {country_variable}CitiesVisited(models.Model):\n\tuser = models.OneToOneField(User, '
+                  f'on_delete=models.CASCADE)\n\tcountry = models.CharField(max_length=50)\n\tcities '
+                  f'= MultiSelectField(choices=select_cities_options("{country}"), null=True, '
+                  'blank=True)\n\tdef __str__(self):\n\t\treturn f"visited cities for country {self.country} '
+                  f'checkbox"\n\tclass Meta:\n\t\tverbose_name_plural = "{country_variable} cities visited checkbox '
+                  f'multiple selections"')
+
+
+# construct_cities_model()
+
+#
+# class AfghanistanCitiesVisited(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     country = models.CharField(max_length=50)
+#     Afghanistan_cities = MultiSelectField(choices=select_cities_options("Afghanistan"), null=True, blank=True)
+#
+#     def __str__(self):
+#         return f"visited cities for country {self.country} checkbox"
+#
+#     class Meta:
+#         """ define nemes to be displayed on admin page """
+#         verbose_name_plural = "Afghanistan cities visited checkbox multiple selections"

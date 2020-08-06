@@ -78,29 +78,34 @@ def construct_cities_model():
     """
     with open(os.path.join(BASE_DIR, 'user_maps', 'static', 'user_maps', 'country_by_continent.json'), mode='r') as file:
         content = json.load(file)
+        list_country_variables = []
         for x in content:
             country = x['country']
             country_variable = country.replace("-", "").replace(" ", "").replace("'", "").replace("(", "")\
                 .replace(")", "").replace(",", "")
-            print(f'\n\nclass {country_variable}CitiesVisited(models.Model):\n\tuser = models.OneToOneField(User, '
-                  f'on_delete=models.CASCADE)\n\tcountry = models.CharField(max_length=50)\n\tcities '
-                  f'= MultiSelectField(choices=select_cities_options("{country}"), null=True, '
-                  'blank=True)\n\tdef __str__(self):\n\t\treturn f"visited cities for country {self.country} '
-                  f'checkbox"\n\tclass Meta:\n\t\tverbose_name_plural = "{country_variable} cities visited checkbox '
-                  f'multiple selections"')
+
+            list_country_variables.append(f"{country_variable}_cities")
+            ## MODEL
+
+            # print(f'\n\nclass {country_variable}CitiesVisited(models.Model):\n\tuser = models.OneToOneField(User, '
+            #       f'on_delete=models.CASCADE)\n\tcountry = models.CharField(max_length=50)\n\tcities '
+            #       f'= MultiSelectField(choices=select_cities_options("{country}"), null=True, '
+            #       'blank=True)\n\tdef __str__(self):\n\t\treturn f"visited cities for country {self.country} '
+            #       f'checkbox"\n\tclass Meta:\n\t\tverbose_name_plural = "{country_variable} cities visited checkbox '
+            #       f'multiple selections"'
+            ## FORM
+        print(list_country_variables)
 
 
 # construct_cities_model()
 
-#
-# class AfghanistanCitiesVisited(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE)
-#     country = models.CharField(max_length=50)
-#     Afghanistan_cities = MultiSelectField(choices=select_cities_options("Afghanistan"), null=True, blank=True)
-#
-#     def __str__(self):
-#         return f"visited cities for country {self.country} checkbox"
-#
-#     class Meta:
-#         """ define nemes to be displayed on admin page """
-#         verbose_name_plural = "Afghanistan cities visited checkbox multiple selections"
+def cities_variable_to_name_map():
+    cities_map = {}
+    with open(os.path.join(BASE_DIR, 'user_maps', 'static', 'user_maps', 'country_by_continent.json'), mode='r') as file:
+        content = json.load(file)
+        for x in content:
+            country = x['country']
+            country_variable = country.replace("-", "").replace(" ", "").replace("'", "").replace("(", "")\
+                .replace(")", "").replace(",", "")
+            cities_map[country] = f"{country_variable}_cities"
+    return cities_map

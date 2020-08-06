@@ -16,11 +16,11 @@ except ImportError:
     from django.contrib.auth.models import User
 
     user_model = User
-from .select_countries_and_cities import select_cities_options
+from .select_countries_and_cities import select_cities_options, cities_variable_to_name_map
 from multiselectfield import MultiSelectField
 
-
 from django.db import connection
+
 
 # tables = connection.introspection.table_names()
 # print(f"existing tables: {tables}")
@@ -53,34 +53,22 @@ class VisitedCountriesView(LoginRequiredMixin, ListView):
         - to see countries visited by user: print(request.user.placesvisited.european_countries)
         """
         form = CountriesUpdateForm(request.POST, instance=request.user.placesvisited)
-        if form.is_valid():
-            """ Get selected country (value tag), if any from element with name tag == 'selected-country """
-            selected_country = request.POST.get('selected-country', False)
-            if selected_country:
-                # country_related_object = CitiesVisitedCountry.objects.filter(
-                #     user=request.user, country_name=selected_country).first()
-                # city_form = CitiesUpdateForm(instance=country_related_object)
-                # print(str(request.user.placesvisited.north_american_countries).split(","))
-                return render(request, self.template_name, {'form': form})
-                # self.get(request=request, city_form=city_form, form_in=form, selected_country=selected_country)
-            else:
-                form.save()
-                return HttpResponseRedirect("/places_visited")
+        cities_form = CitiesUpdateForm(request.POST, instance=request.user.placesvisited)
+        if form.is_valid() and cities_form.is_valid():
+            print("### post form is valid")
+            form.save()
+            cities_form.save()
+            return HttpResponseRedirect("/places_visited")
         else:
             return render(request, self.template_name, {'form': form})
 
-    def get(self, request, selected_country=None, city_form=None, form_in=None, *args):
+    def get(self, request, *args):
         """ Passing placesvisited also in get request so that update does not replace existing choices, but builds
         upon it """
         countries_visited_list = ViewUtils().countries_visited_list(request)
         """ Refreshes map, highlighting countries visited """
         MapCreation().create_base_map(countries_visited_list)
-        if not form_in:
-            form = CountriesUpdateForm(instance=request.user.placesvisited)
-        else:
-            form = form_in
-        print(f"countries visited: {countries_visited_list}\n")
-
+        form = CountriesUpdateForm(instance=request.user.placesvisited)
         """ user needs to have a CitiesVisitedCountry object for each country visited currently selected in 
         any of the drop down menus """
         for visited_country in countries_visited_list:
@@ -93,18 +81,22 @@ class VisitedCountriesView(LoginRequiredMixin, ListView):
                 visited_country_object.save()
         visited_country_objects = CitiesVisitedCountry.objects.filter(
             user=request.user)
+        # print(f"countries visited: {countries_visited_list}\n")
         for item in visited_country_objects:
+            print(f"item.country_name: {item.country_name}")
+            print(f"countries_visited_list: {countries_visited_list}")
             if item.country_name not in countries_visited_list:
                 print(f"removing {item.country_name}")
                 item.delete()
         """ user CitiesVisited object """
         existing_visited_cities_object = CitiesVisited.objects.filter(user=request.user).first()
-        print(existing_visited_cities_object.Afghanistan_cities.choices)
+        cities_form = CitiesUpdateForm(instance=existing_visited_cities_object)
+        # print(cities_form["Afghanistan_cities"])
+        cities_variable_name_map = cities_variable_to_name_map()
+        # print(cities_variable_name_map)
 
         return render(request, self.template_name, {'form': form,
-                                                    'countries_visited': visited_country_objects,
-                                                    "cities_visited_form": CitiesUpdateForm(
-                                                        instance=existing_visited_cities_object)
+                                                    'countries_visited': countries_visited_list,
+                                                    "cities_visited_form": cities_form,
+                                                    "country_names_map": cities_variable_name_map
                                                     })
-
-

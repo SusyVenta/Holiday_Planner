@@ -1,6 +1,7 @@
 {% extends "plans/base.html" %}
 {% load static %}
 {% load friendshiptags %}
+{% load filters %}
 {% block content %}
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <script>
@@ -12,30 +13,11 @@
             $('.dropdown-item.country-visited').click(function() {
                 // alert($(this).attr("value"));
                 var selected_country = $(this).attr("value");
-
                 console.log(selected_country);
-
-                $.getJSON("{% static 'user_maps/cities_by_country.json' %}", function(data) {
-                    var vals = [];
-
-                    $.each( data, function( key, val ) {
-                        if (key == selected_country) {
-                            vals.push( val );
-                        }
-                    });
-
-                    var $jsontwo = $("#json-two");
-                    $jsontwo.empty();
-                    $.each(vals, function(index, value) {
-                        console.log("appending this")
-                        console.log(value);
-                        $.each(value, function(index, element) {
-                            console.log("appending this")
-                            console.log(element);
-                            $jsontwo.append("<option>" + element + "</option>");
-                        });
-                    });
-                });
+                //dropdown_two_by_id = $( "#id_" + selected_country + );
+                dropdown_two_by_id = document.getElementById(selected_country);
+                console.log(dropdown_two_by_id);
+                dropdown_two_by_id.style.visibility = "visible";
             });
         });
 
@@ -135,34 +117,36 @@
   </div>
   {% if countries_visited %}
   <div class="main inner" style="border-bottom:none !important; border-left:none !important; border-right:none !important;">
-      <form method="POST">
-        {% csrf_token %}
-
-            <div>
-                <div class="dropdown p-1" >
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Select a country you visited
-                    </button>
-                    <div class="dropdown-menu" id="options" aria-labelledby="dropdownMenu2" >
-                        {% for country_visited in countries_visited %}
-                        <button name="selected-country" type="submit" class="dropdown-item country-visited" value="{{country_visited}}">{{country_visited}}</button>
-                        {% endfor %}
+     <div class="dropdown p-1" >
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+           Select a country you visited
+        </button>
+        <div class="dropdown-menu" id="options" aria-labelledby="dropdownMenu2" >
+           {% for country_visited in countries_visited %}
+           <button name="selected-country" class="dropdown-item country-visited" value="{{country_visited}}">{{country_visited}}</button>
+           {% endfor %}
+        </div>
+     </div>
+     {% if cities_visited_form %}
+         <br/>
+        <form method="POST">
+         {% for country_name, country_variable in country_names_map.items %}
+            {% if country_name in countries_visited %}
+            {% csrf_token %}
+                <div>
+                    <div class="dropdown p-1 hidden" id={{country_name}} style="visibility:hidden;">
+                        <button class="btn btn-secondary dropdown-toggle" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ country_name }}
+                        </button>
+                        <div  class="dropdown-menu scrollable-menu">{{cities_visited_form|get_dict_item:country_variable}}</div>
                     </div>
                 </div>
-                {% if cities_visited_form %}
-                <br/>
-                {% for country_name, city_dropdown in cities_visited_form.items %}
-                <div class="dropdown p-1" id="json-two">
-                    <button class="btn btn-secondary dropdown-toggle" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ country_name }}
-                    </button>
-                    <div  class="dropdown-menu scrollable-menu">{{city_dropdown}}</div>
-                </div>
-                {% endfor %}
-                {% endif %}
-            </div>
+          {% endif %}
+        {% endfor %}
+        </form>
+    {% endif %}
 
-      </form>
+
   </div>
   {% endif %}
   <div class="main inner">

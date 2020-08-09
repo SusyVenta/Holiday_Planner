@@ -43,6 +43,21 @@ body {
   margin-bottom:0px !important;
 }
 
+.modal-content{
+  background-color: #232323 !important;
+  color:white;
+}
+
+.close {
+  color:white !important;
+  text-shadow:none !important;
+}
+
+.modal-title{
+  background-color: #232323 !important;
+  color:orange;
+}
+
 .navbar-brand{
   color: white !important;
 }
@@ -276,6 +291,15 @@ iframe {
 ul {
     list-style-type: none;
 }
+
+.btn.btn-secondary.dropdown-item.country-visited:hover{
+  color:black !important;
+  background-color:white !important;
+}
+
+
+
+
 
 
 

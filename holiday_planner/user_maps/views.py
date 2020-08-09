@@ -43,6 +43,24 @@ class ViewUtils:
                 cleaned_list.append(cleaned_item)
         return cleaned_list
 
+    def synchronize_country_objects(self, request, countries_visited_list):
+        """ Add or remove single country objects based on selected choices from forms """
+        if len(countries_visited_list) > 0:
+            for visited_country in countries_visited_list:
+                visited_country_object = CitiesVisitedCountry.objects.filter(
+                    user=request.user, country_name=visited_country).first()
+                if not visited_country_object:
+                    print(f"visited_country object {visited_country} not existing. creating it. ")
+                    visited_country_object = CitiesVisitedCountry(user=request.user, country_name=visited_country)
+                    visited_country_object.save()
+
+        visited_country_objects = CitiesVisitedCountry.objects.filter(
+            user=request.user)
+        for item in visited_country_objects:
+            if item.country_name not in countries_visited_list:
+                print(f"removing {item.country_name}")
+                item.delete()
+
 
 class VisitedCountriesView(LoginRequiredMixin, ListView):
     template_name = 'user_maps/visited_places.html'
@@ -53,7 +71,7 @@ class VisitedCountriesView(LoginRequiredMixin, ListView):
         - to see countries visited by user: print(request.user.placesvisited.european_countries)
         """
         form = CountriesUpdateForm(request.POST, instance=request.user.placesvisited)
-        cities_form = CitiesUpdateForm(request.POST, instance=request.user.placesvisited)
+        cities_form = CitiesUpdateForm(request.POST, instance=request.user.citiesvisited)
         if form.is_valid() and cities_form.is_valid():
             print("### post form is valid")
             form.save()
@@ -69,31 +87,16 @@ class VisitedCountriesView(LoginRequiredMixin, ListView):
         """ Refreshes map, highlighting countries visited """
         MapCreation().create_base_map(countries_visited_list)
         form = CountriesUpdateForm(instance=request.user.placesvisited)
+        """ Form contains all items in the multiple select menus. If item is selected, 'checked' attribute is present:
+        <li><label for="id_european_countries_2"><input type="checkbox" name="european_countries" value="Austria" 
+        id="id_european_countries_2" checked>Austria</label></li>
+        """
         """ user needs to have a CitiesVisitedCountry object for each country visited currently selected in 
         any of the drop down menus """
-        for visited_country in countries_visited_list:
-            visited_country_object = CitiesVisitedCountry.objects.filter(
-                user=request.user, country_name=visited_country).first()
-            # print(f"existing visited country object: {visited_country_object}")
-            if not visited_country_object:
-                print(f"visited_country object {visited_country} not existing. creating it. ")
-                visited_country_object = CitiesVisitedCountry(user=request.user, country_name=visited_country)
-                visited_country_object.save()
-        visited_country_objects = CitiesVisitedCountry.objects.filter(
-            user=request.user)
-        # print(f"countries visited: {countries_visited_list}\n")
-        for item in visited_country_objects:
-            print(f"item.country_name: {item.country_name}")
-            print(f"countries_visited_list: {countries_visited_list}")
-            if item.country_name not in countries_visited_list:
-                print(f"removing {item.country_name}")
-                item.delete()
-        """ user CitiesVisited object """
+        ViewUtils().synchronize_country_objects(request=request, countries_visited_list=countries_visited_list)
         existing_visited_cities_object = CitiesVisited.objects.filter(user=request.user).first()
         cities_form = CitiesUpdateForm(instance=existing_visited_cities_object)
-        # print(cities_form["Afghanistan_cities"])
         cities_variable_name_map = cities_variable_to_name_map()
-        # print(cities_variable_name_map)
 
         return render(request, self.template_name, {'form': form,
                                                     'countries_visited': countries_visited_list,
